@@ -64,6 +64,17 @@ const test_vectors = [
             brightness: 180
         }),
         expected: "181,181,181"
+    },
+
+    {
+        func: coders.properties.colorTemperature.encode,
+        arg: 400,
+        expected: JSON.stringify({ color_temp: 400 })
+    },
+    {
+        func: coders.properties.colorTemperature.decode,
+        arg: JSON.stringify({ color_temp: 400 }),
+        expected: 400
     }
 ]
 

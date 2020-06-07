@@ -57,6 +57,14 @@ exports.init = function(params) {
             : [255, 255, 255];
     }
 
+    function encode_colortemp(message) {
+        return JSON.stringify({ color_temp: message })
+    }
+    function decode_colortemp(message) {
+        const msg = JSON.parse(message);
+        return msg.color_temp ? msg.color_temp : 100;
+    }
+
     return { 
         encode, decode,
         properties: {
@@ -71,6 +79,10 @@ exports.init = function(params) {
             RGB: {
                 encode: encode_rgb,
                 decode: decode_rgb
+            },
+            colorTemperature: {
+                encode: encode_colortemp,
+                decode: decode_colortemp
             }
         }
     };
