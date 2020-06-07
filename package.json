@@ -1,0 +1,25 @@
+{
+  "name": "homebridge-mqttthing-tradfri",
+  "version": "0.1.0",
+  "description": "A homebridge-mqttthing codec for IKEA tradfri bulbs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KizzyCode/homebridge-mqttthing-tradfri.git"
+  },
+  "keywords": [
+    "homebridge",
+    "mqttthing",
+    "zigbee2mqtt",
+    "tradfri"
+  ],
+  "author": "KizzyCode",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/KizzyCode/homebridge-mqttthing-tradfri/issues"
+  },
+  "homepage": "https://github.com/KizzyCode/homebridge-mqttthing-tradfri#readme"
+}
