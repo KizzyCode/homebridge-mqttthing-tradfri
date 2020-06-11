@@ -24,7 +24,7 @@ exports.init = function(params) {
     }
 
     function encode_on(message) {
-        return JSON.stringify({ state: message ? "ON" : "OFF" });
+        return JSON.stringify({ state: message ? "ON" : "OFF", transition: 0.7 });
     }
     function decode_on(message) {
         const msg = JSON.parse(message);
@@ -33,7 +33,7 @@ exports.init = function(params) {
 
     function encode_brightness(message) {
         // Map [0, 100] to [0, 254]
-        return JSON.stringify({ brightness: Math.round(message * 2.54) });
+        return JSON.stringify({ brightness: Math.round(message * 2.54), transition: 0.7 });
     }
     function decode_brightness(message) {
         // Map [0, 254] to [0, 100]
@@ -47,7 +47,8 @@ exports.init = function(params) {
         const brightness = Math.round(0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]);
         return JSON.stringify({
             color: { r: +rgb[0], g: +rgb[1], b: +rgb[2] },
-            brightness: brightness > 254 ? 254 : brightness
+            brightness: brightness > 254 ? 254 : brightness,
+            transition: 0.7
         });
     }
     function decode_rgb(message) {
@@ -58,7 +59,7 @@ exports.init = function(params) {
     }
 
     function encode_colortemp(message) {
-        return JSON.stringify({ color_temp: message })
+        return JSON.stringify({ color_temp: message, transition: 0.7 })
     }
     function decode_colortemp(message) {
         const msg = JSON.parse(message);

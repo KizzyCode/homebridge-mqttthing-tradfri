@@ -9,12 +9,12 @@ const test_vectors = [
     {
         func: coders.properties.on.encode,
         arg: true,
-        expected: JSON.stringify({ state: "ON" })
+        expected: JSON.stringify({ state: "ON", transition: 0.7 })
     },
     { 
         func: coders.properties.on.encode,
         arg: false,
-        expected: JSON.stringify({ state: "OFF" })
+        expected: JSON.stringify({ state: "OFF", transition: 0.7 })
     },
     { 
         func: coders.properties.on.decode,
@@ -31,12 +31,12 @@ const test_vectors = [
     {
         func: coders.properties.brightness.encode,
         arg: 0,
-        expected: JSON.stringify({ brightness: 0 })
+        expected: JSON.stringify({ brightness: 0, transition: 0.7 })
     },
     {
         func: coders.properties.brightness.encode,
         arg: 100,
-        expected: JSON.stringify({ brightness: 254 })
+        expected: JSON.stringify({ brightness: 254, transition: 0.7 })
     },
     {
         func: coders.properties.brightness.decode,
@@ -54,7 +54,8 @@ const test_vectors = [
         arg: "255, 255, 255",
         expected: JSON.stringify({
             color: { r: 255, g: 255, b: 255 },
-            brightness: 254
+            brightness: 254,
+            transition: 0.7
         })
     },
     {
@@ -69,7 +70,7 @@ const test_vectors = [
     {
         func: coders.properties.colorTemperature.encode,
         arg: 400,
-        expected: JSON.stringify({ color_temp: 400 })
+        expected: JSON.stringify({ color_temp: 400, transition: 0.7 })
     },
     {
         func: coders.properties.colorTemperature.decode,
