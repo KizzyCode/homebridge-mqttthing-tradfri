@@ -1,6 +1,6 @@
 {
   "name": "homebridge-mqttthing-tradfri",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A homebridge-mqttthing codec for IKEA tradfri bulbs",
   "main": "index.js",
   "scripts": {
