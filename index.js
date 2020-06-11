@@ -12,19 +12,25 @@ const conv = require("./cie_to_rgb");
  */
 exports.init = function(params) {
     let { log, config } = params;
-    log("Trådfri codec initialized with " + config.name + ".");
+    log("Trådfri codec initialized with " + config.name + ": " + JSON.stringify(config, null, 4));
+
+    // Read codec configuration
+    const transition_interval = isNaN(config.codecTransitionInterval) ? 0.5 : config.codecTransitionInterval;
+    function debug(text) {
+        if (config.codecDebug === true) log(text);
+    }
 
     function encode(message, info, output) {
-        log("Encoding: topic=[" + info.topic + "], property=[" + info.property + "], message=[" + message + "]");
+        debug("Encoding: topic=[" + info.topic + "], property=[" + info.property + "], message=[" + message + "]");
         output(message);
     }
     function decode(message, info, output) {
-        log("Decoding: topic=[" + info.topic + "], property=[" + info.property + "], message=[" + message + "]");
+        debug("Decoding: topic=[" + info.topic + "], property=[" + info.property + "], message=[" + message + "]");
         output(message);
     }
 
     function encode_on(message) {
-        return JSON.stringify({ state: message ? "ON" : "OFF", transition: 0.7 });
+        return JSON.stringify({ state: message ? "ON" : "OFF", transition: transition_interval });
     }
     function decode_on(message) {
         const msg = JSON.parse(message);
@@ -33,7 +39,7 @@ exports.init = function(params) {
 
     function encode_brightness(message) {
         // Map [0, 100] to [0, 254]
-        return JSON.stringify({ brightness: Math.round(message * 2.54), transition: 0.7 });
+        return JSON.stringify({ brightness: Math.round(message * 2.54), transition: transition_interval });
     }
     function decode_brightness(message) {
         // Map [0, 254] to [0, 100]
@@ -48,7 +54,7 @@ exports.init = function(params) {
         return JSON.stringify({
             color: { r: +rgb[0], g: +rgb[1], b: +rgb[2] },
             brightness: brightness > 254 ? 254 : brightness,
-            transition: 0.7
+            transition: transition_interval
         });
     }
     function decode_rgb(message) {
@@ -59,7 +65,7 @@ exports.init = function(params) {
     }
 
     function encode_colortemp(message) {
-        return JSON.stringify({ color_temp: message, transition: 0.7 })
+        return JSON.stringify({ color_temp: message, transition: transition_interval })
     }
     function decode_colortemp(message) {
         const msg = JSON.parse(message);
