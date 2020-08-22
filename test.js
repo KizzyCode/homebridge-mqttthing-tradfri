@@ -1,7 +1,7 @@
 'use strict';
 
 const codec = require("./index");
-const conv = require("./cie_to_rgb")
+const conv = require("./color")
 
 // Get the coders and define the test vectors
 const coders = codec.init({
@@ -53,21 +53,21 @@ const test_vectors = [
     },
 
     {
-        func: coders.properties.RGB.encode,
-        arg: "255, 255, 255",
+        func: coders.properties.HSV.encode,
+        arg: "13.642,76.389,87.560",
         expected: JSON.stringify({
-            color: { r: 255, g: 255, b: 255 },
-            brightness: 254,
+            color: { x: 0.48, y: 0.356 },
+            brightness: 222,
             transition: 0.7
         })
     },
     {
-        func: coders.properties.RGB.decode,
-        arg: JSON.stringify({ 
-            color: { x: 0.3227, y: 0.3290 },
-            brightness: 180
+        func: coders.properties.HSV.decode,
+        arg: JSON.stringify({
+            color: { x: 0.48, y: 0.356 },
+            brightness: 222
         }),
-        expected: "181,181,181"
+        expected: "13.5385,76.4706,87.4016"
     },
 
     {

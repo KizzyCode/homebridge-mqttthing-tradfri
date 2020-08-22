@@ -1,6 +1,7 @@
 'use strict';
 
-const conv = require("./cie_to_rgb");
+// TODO: const conv = require("./cie_to_rgb");
+const conv = require("./color");
 
 
 /**
@@ -57,24 +58,25 @@ exports.init = function(params) {
         return decoded;
     }
 
-    function encode_rgb(message) {
-        const rgb = message.split(",");
-        // See http://www.w3.org/TR/AERT#color-contrast
-        const brightness = Math.round(0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]);
+    function encode_hsv(message) {
+        // Inspired by https://github.com/arachnetech/homebridge-mqttthing/issues/80#issuecomment-475384764
+        const [h, s, v] = message.split(",");
+        const { x, y } = conv.hsv_to_cie(h, s, 100);
         const encoded = JSON.stringify({
-            color: { r: +rgb[0], g: +rgb[1], b: +rgb[2] },
-            brightness: brightness > 254 ? 254 : brightness,
+            color: { x: x, y: y },
+            brightness: Math.round(Math.min(v * 2.54, 254)),
             transition: transition_interval
         });
 
         debug("`encode_rgb`: message='" + message + "' -> '" + encoded + "'");
         return encoded;
     }
-    function decode_rgb(message) {
+    function decode_hsv(message) {
         const { color, brightness } = JSON.parse(message);
-        const decoded = color
-            ? conv.cie_to_rgb(color.x, color.y, brightness).join(',')
-            : [255, 255, 255];
+        const { h, s } = color
+            ? conv.cie_to_hsv(color.x, color.y)
+            : { h: 360, s: 100};
+        const decoded = h + "," + s + "," + (brightness / 2.54).toFixed(4);
 
         debug("`decode_rgb`: message='" + message + "' -> '" + decoded + "'");
         return decoded;
@@ -104,9 +106,9 @@ exports.init = function(params) {
                 encode: encode_brightness,
                 decode: decode_brightness
             },
-            RGB: {
-                encode: encode_rgb,
-                decode: decode_rgb
+            HSV: {
+                encode: encode_hsv,
+                decode: decode_hsv
             },
             colorTemperature: {
                 encode: encode_colortemp,
