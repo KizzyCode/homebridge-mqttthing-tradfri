@@ -68,7 +68,7 @@ exports.init = function(params) {
             transition: transition_interval
         });
 
-        debug("`encode_rgb`: message='" + message + "' -> '" + encoded + "'");
+        debug("`encode_hsv`: message='" + message + "' -> '" + encoded + "'");
         return encoded;
     }
     function decode_hsv(message) {
@@ -78,7 +78,7 @@ exports.init = function(params) {
             : { h: 360, s: 100};
         const decoded = h + "," + s + "," + (brightness / 2.54).toFixed(4);
 
-        debug("`decode_rgb`: message='" + message + "' -> '" + decoded + "'");
+        debug("`decode_hsv`: message='" + message + "' -> '" + decoded + "'");
         return decoded;
     }
 
