@@ -6,7 +6,7 @@ const conv = require("./cie_to_rgb")
 // Get the coders and define the test vectors
 const coders = codec.init({
     log: console.log,
-    config: { codecTransitionInterval: 0.7 }
+    config: { debug: true, codecTransitionInterval: 0.7 }
 })
 const test_vectors = [
     {
